@@ -1,25 +1,179 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33213.308
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{7B7E48BB-5DC4-463D-B1E5-B5E46AFC575B}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7B7E48BB-5DC4-463D-B1E5-B5E46AFC575B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B7E48BB-5DC4-463D-B1E5-B5E46AFC575B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B7E48BB-5DC4-463D-B1E5-B5E46AFC575B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B7E48BB-5DC4-463D-B1E5-B5E46AFC575B}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A42D7AC0-4A78-400B-A882-347F51E4DFAA}
-	EndGlobalSection
-EndGlobal
+// See https://aka.ms/new-console-template for more information
+using System.Diagnostics.Metrics;
+using System.Reflection;
+using System.Reflection.Metadata;
+
+double preis_cola = 2.20;
+double preis_fanta = 2.20;
+double preis_spezi = 2.20;
+double preis_apfelschorle = 2;
+double preis_sprudel = 1.50;
+
+double[] preise = { preis_fanta, preis_cola, preis_spezi, preis_apfelschorle, preis_sprudel };
+
+string[] getraenke = { "Fanta", "Cola", "Spezi", "Apfelschorle", "Sprudel" };
+
+int fanta_anzahl = 98;
+int cola_anzahl = 100;
+int spezi_anzahl = 0;
+int apfelschorle_anzahl = 500;
+int sprudel_anzahl = 300;
+
+int[] getraenke_anzahl = { fanta_anzahl, cola_anzahl, spezi_anzahl, apfelschorle_anzahl, sprudel_anzahl };
+
+int[] getraenke_voll = { 0, 0, 0, 0, 0 };
+
+int anzahl_2 = 0;
+int anzahl_1 = 0;
+int anzahl_50 = 0;
+int anzahl_20 = 0;
+int anzahl_10 = 0;
+
+int[] anzahl_muenzen = { anzahl_2, anzahl_1, anzahl_50, anzahl_20, anzahl_10 };
+
+double[] muenzen = { 0.1, 0.2, 0.5, 1, 2};
+
+double guthaben = 4;
+
+int counter = 0;
+
+int dazu = 0;
+int alle = 0;
+
+while(2 == 2)
+{
+    counter = 0;
+    string eingabe = Console.ReadLine();
+
+
+    string[] eingabe_teile = eingabe.Split(" ");
+    if (eingabe_teile.Length != 2)
+    {
+        switch (eingabe)
+        {
+            case "Preise":
+                for (int i = getraenke.Length -1; i >= 0; i--)
+                {
+                    Console.WriteLine(getraenke[i] + ": " + preise[i] + "$");
+                }
+                break;
+            case "Inhalt":
+                for (int i = getraenke.Length -1; i >= 0; i--)
+                {
+                    Console.WriteLine("Anzahl " + getraenke[i] + ": " + getraenke_anzahl[i]);
+
+                }
+                break;
+            default:
+                Console.WriteLine("Fehler: Befehl ist nicht bekannt.");
+                break;
+        }
+    }
+    else
+    {
+        switch (eingabe_teile[0])
+        {
+            case "insertEuro":
+                try
+                {
+                    double betrag = Convert.ToDouble(eingabe_teile[1]);
+                    for (int i = muenzen.Length -1; i >= 0; i--)
+                    {
+                        if (betrag == muenzen[i])
+                        {
+                            guthaben += muenzen[i];
+                            Console.WriteLine(betrag + "$ wurde eingeworfen, dein Guthaben beträgt " + guthaben + "$");
+                            counter++;
+                        }
+                    }
+                    if (counter == 0)
+                    {
+                        Console.WriteLine(betrag + "$ ist keine akzeptierte Münze");
+                    }
+
+                }
+                catch
+                {
+                    Console.WriteLine(eingabe_teile[1] + "ist kein Wert für eine Münze");
+                }
+                break;
+            case "buy":
+                for (int i = getraenke.Length -1; i >= 0; i--)
+                {
+                    if (eingabe_teile[1] == getraenke[i])
+                    {
+                        counter++;
+                        if (getraenke_anzahl[i] >= 1)
+                        {
+                            if (guthaben >= preise[i])
+                            {
+                                getraenke_anzahl[i]--;
+                                guthaben -= preise[i];
+                                for (int b = muenzen.Length -1; b >= 0; b--)
+                                {
+                                    while (muenzen[b] >= guthaben)
+                                    {
+                                        guthaben -= muenzen[b];
+                                        anzahl_muenzen[b]++;
+                                    }
+                                }
+                                Console.WriteLine("Du bekommst eine Flasche " + getraenke[i] + ", dein Rückgeld ist:" + anzahl_muenzen[0] + "x 2$, " + anzahl_muenzen[1] + "x 1$, " + anzahl_muenzen[2] + "x 0.5$, " + anzahl_muenzen[3] + "x 0.2$, " + +anzahl_muenzen[4] + "x 0.1$ ");
+                            }
+                            else
+                            {
+                                double fehlend = preise[i] - guthaben;
+                                Console.WriteLine("Nicht genug Guthaben, es fehlen " + fehlend + "$.");  
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine(getraenke[i] + "-Fach ist leer."); 
+                        }
+                    }
+                }
+                if(counter == 0)
+                {
+                    Console.WriteLine(eingabe_teile[1] + " kann man hier nicht kaufen."); 
+                }
+                break;
+            case "insertGetraenk":
+                for (int i = getraenke.Length - 1; i >= 0; i--)
+                {
+                    if (eingabe_teile[1] == getraenke[i])
+                    {
+                        counter++;
+                        getraenke_anzahl[i]++;
+                        for (int r = getraenke.Length - 1; r >= 0; r--)
+                        {
+                            dazu = 50 - (getraenke_anzahl[r] % 50);
+                            getraenke_voll[r] = getraenke_anzahl[r] + dazu;
+                        }
+                        for (int z = getraenke_voll.Length -1; z >= 0; z--)
+                        {
+                            alle += getraenke_voll[z];
+                        }
+                        if (alle <= 1000)
+                        {
+                            Console.WriteLine(getraenke[i] + " wurde in den Automat gelegt. Anzahl " + getraenke[i] + ": " + getraenke_anzahl[i]);
+                        }
+                        else
+                        {
+                            getraenke_anzahl[i]--;
+                            Console.WriteLine("Alle Fächer belegt.");
+                        }
+
+
+                    }
+                    if (counter == 0)
+                    {
+                        Console.WriteLine(eingabe_teile[1] + " kann man hier nicht kaufen.");
+                    }
+                }
+                break;
+            default:
+                Console.WriteLine("Fehler: Befehl ist nicht bekannt."); 
+                break;
+
+        }
+    }
+}
