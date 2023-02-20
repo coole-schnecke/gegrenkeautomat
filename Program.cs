@@ -64,6 +64,16 @@ namespace Grenkegetränkeautomat
             {
                 Console.Write("Hinweis: ");
             }
+            void ausgabe_insertGetraenk (int rein, int i)
+            {
+                getraenke[i].Anzahl += rein;
+                if (rein > 1)
+                {
+                    Console.Write(rein + "x ");
+                }
+                Console.WriteLine(getraenke[i].Name + " wurde in den Automat gelegt. Anzahl " + getraenke[i].Name + ": " + getraenke[i].Anzahl);
+
+            }
             void akzeptierteMuenzen()
             {
                 Console.WriteLine("Hinweis: Der Automat akzeptiert folgende Münzen: ");
@@ -354,12 +364,7 @@ namespace Grenkegetränkeautomat
                                             frei = plaetze_ges - blockiert_ges - getraenke[i].Anzahl;
                                             if (frei >= hinzufügen)
                                             {
-                                                getraenke[i].Anzahl += hinzufügen;
-                                                if (hinzufügen > 1)
-                                                {
-                                                    Console.Write(hinzufügen + "x ");
-                                                }
-                                                Console.WriteLine(getraenke[i].Name + " wurde in den Automat gelegt. Anzahl " + getraenke[i].Name + ": " + getraenke[i].Anzahl);
+                                                ausgabe_insertGetraenk(hinzufügen, i);
                                             }
                                             else if (frei > 0)
                                             {
@@ -371,12 +376,7 @@ namespace Grenkegetränkeautomat
                                                     switch (ja_nein_eingabe)
                                                     {
                                                         case "ja":
-                                                            getraenke[i].Anzahl += frei;
-                                                            if (frei > 1)
-                                                            {
-                                                                Console.Write(frei + "x ");
-                                                            }
-                                                            Console.WriteLine(getraenke[i].Name + " wurde in den Automat gelegt. Anzahl " + getraenke[i].Name + ": " + getraenke[i].Anzahl);
+                                                            ausgabe_insertGetraenk(frei, i);
                                                             counter_ja_nein = true;
                                                             break;
                                                         case "nein":
