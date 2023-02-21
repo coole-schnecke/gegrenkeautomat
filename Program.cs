@@ -10,11 +10,11 @@ namespace Grenkegetränkeautomat
     {
         static void Main(string[] args)
         {
-            int faecher = 20;
+            int faecher = 20; 
             int plaetze_je_fach = 50;
             int plaetze_ges = faecher * plaetze_je_fach;
 
-            int anzahl_getraenke_anfang = 53;
+            int anzahl_getraenke_anfang = 10; //gibt an wie oft jedes Getränk zu beginn im Automat ist
 
             Getraenk fanta = new Getraenk("Fanta", 2.2, 0, 0, 0.5, -1);
             Getraenk cola = new Getraenk("Cola", 2.2, 0, 0, 0.5, -1);
@@ -39,7 +39,7 @@ namespace Grenkegetränkeautomat
 
             string[,] inhalt_automat = new string [faecher, plaetze_je_fach];
 
-            for (int i = 0; i < faecher; i++) //alle faecher leer
+            for (int i = 0; i < faecher; i++) //setzt alle plätze in inhalt_automat[] auf "leer"
             {
                 for (int j = 0; j < plaetze_je_fach; j++)
                 {
@@ -49,7 +49,7 @@ namespace Grenkegetränkeautomat
 
             double guthaben = 0;
             
-            bool counter_kaufen = false; //counter überprüfen ob if in Schleifen mindestes einmal ausfegührt wurde  ?????stimmt das
+            bool counter_kaufen = false; //counter überprüfen ob if in Schleifen mind. einmal ausfegührt wurde
             bool counter_rueckgeld = false;
             bool counter_muenze_pruefen = false;
             bool counter_auffuellen = false;
@@ -78,7 +78,7 @@ namespace Grenkegetränkeautomat
             {
                 Console.Write("Hinweis: ");
             }
-            void ausgabe_insertGetraenk (int hinzu, int i)
+            void ausgabe_insertGetraenk (int hinzu, int i) //Ausgabe wie viele Flaschen des Getränks hinzugefügt wurden + Anzahl im Automat
             {
                 if (hinzu > 1)
                 {
@@ -87,7 +87,7 @@ namespace Grenkegetränkeautomat
                 Console.WriteLine(getraenke[i].Name + " wurde in den Automat gelegt. Anzahl " + getraenke[i].Name + ": " + getraenke[i].Anzahl);
 
             }
-            void akzeptierteMuenzen()
+            void akzeptierteMuenzen() //gibt akzepieterte Münzen aus
             {
                 Console.WriteLine("Hinweis: Der Automat akzeptiert folgende Münzen: ");
                 for (int i = muenzen.Length - 1; i >= 0; i--)
@@ -102,9 +102,6 @@ namespace Grenkegetränkeautomat
                 Console.WriteLine(".");
                 counter_akzeptierte_muenzen = false;
             }
-            void erklaerungCredit() {
-                Console.WriteLine("Mit dem Befehl \"credit\" kannst du dein Guthaben abfragen.");
-            }
             void erklaerungInsertEuro()
             {
                 Console.WriteLine("Um eine Münze in den Automaten zu werfen, nutze den Befehl insertEuro und gib den Wert der Münze an (Beispiel: \"insertEuro " + muenzen[2].Wert + "\").");
@@ -113,7 +110,7 @@ namespace Grenkegetränkeautomat
             {
                 Console.WriteLine("Um ein Getränk zu kaufen, nutze den Befehl buy und gib den Namen des Getränks an (Beispiel: \"buy " + getraenke[getraenke.Length - 1].Name + "\").");
             }
-            void inhaltAutomat()
+            void inhaltAutomat() //gibt Anzahl für jedes Getränk aus
             {
                 for (int i = getraenke.Length - 1; i >= 0; i--)
                 {
@@ -137,15 +134,14 @@ namespace Grenkegetränkeautomat
                 Console.WriteLine("Herzlich Willkommen beim Gegrenkeautomat!");
                 leereZeile();
                 Console.WriteLine("Folgende Getränke kannst du hier kaufen:");
-                for (int g = getraenke.Length - 1; g >= 0; g--)
+                for (int g = getraenke.Length - 1; g >= 0; g--) //gibt Name Getränke + Literangabe + Preis aus
                 {
                     Console.WriteLine(getraenke[g].Name + " (" + getraenke[g].Liter + " Liter): " + getraenke[g].Preis + " Euro");
                 }
                 leereZeile();
                 Console.WriteLine("Um den Preis eines einzelnen Getränks später erneut abzufragen, nutze den Befehl price und gib den Namen des Getränks an (Beispiel: \"price " + getraenke[getraenke.Length - 1].Name + "\").");
                 leereZeile();
-                Console.WriteLine("Dein derzeitiges Guthaben beträgt " + guthaben + " Euro.");
-                erklaerungCredit();
+                Console.WriteLine("Dein derzeitiges Guthaben beträgt " + guthaben + " Euro."); 
                 leereZeile();
                 erklaerungInsertEuro();
                 Console.Write("");
@@ -162,11 +158,11 @@ namespace Grenkegetränkeautomat
                 erklaerungInsertGetraenk2();
                 leereZeile();
             }
-            void inFachLegen(int hinzu, int i)
+            void inFachLegen(int hinzu, int i) //legt Getränke in Fächer
             {
                 while(hinzu > 0)
                 {
-                    if (getraenke[i].AngefangenesFach >= 0)
+                    if (getraenke[i].AngefangenesFach >= 0) //es gibt ein nicht vollständig gefülltes Fach -> Getränk an ersten freien Platz
                     {
                         for (int j = 0; j < plaetze_je_fach; j++)
                         {
@@ -187,7 +183,7 @@ namespace Grenkegetränkeautomat
                         }
                         counter_in_fach_legen = false;
                     }
-                    else
+                    else //alle Fächer mit dem Getränk sind vollständig gefüllt -> legt Getränk an ersten Platz im ersten freien Fach
                     {
                         for (int j = 0; j < faecher; j++)
                         {
@@ -209,7 +205,7 @@ namespace Grenkegetränkeautomat
             }
             void ausFachNehmen (int i)
             {
-                if (getraenke[i].AngefangenesFach >= 0)
+                if (getraenke[i].AngefangenesFach >= 0) //es gibt ein nicht vollständig gefülltes Fach -> nimmt Getränk von letztem gefüllten Platz
                 {
                     for (int j = plaetze_je_fach - 1; j >= 0; j--)
                     {
@@ -229,7 +225,7 @@ namespace Grenkegetränkeautomat
                     }
                     counter_aus_fach_nehmen = false;
                 }
-                else
+                else //alle Fächer des Getränk sind vollständig gefüllt -> nimmt Getränk von letztem Platz aus dem letztem vollen Fach
                 {
                     for (int j = faecher -1; j >= 0; j--)
                     {
@@ -248,7 +244,7 @@ namespace Grenkegetränkeautomat
                 }
             }
 
-            for (int i = 0; i < getraenke.Length; i++)
+            for (int i = 0; i < getraenke.Length; i++) //legt Getränke, die sich zu beginn im Automaten bedinden sollen, in Fächer
             {
                 inFachLegen(anzahl_getraenke_anfang, i);
             }
@@ -257,12 +253,12 @@ namespace Grenkegetränkeautomat
             while (true == true)
             {
                 string eingabe = Console.ReadLine();
-                eingabe = eingabe.Trim();
+                eingabe = eingabe.Trim(); 
                 string[] eingabe_teile = eingabe.Split(' ');
 
                 switch (eingabe_teile[0])
                 {
-                    case "inhalt":
+                    /*case "inhalt": // gibt Inhalt jedes Platzes aus (bzw leer)
                         for (int i = 0; i < faecher; i++)
                         {
                             Console.WriteLine("Fach " + (i + 1) + ":");
@@ -271,19 +267,7 @@ namespace Grenkegetränkeautomat
                                 Console.WriteLine(inhalt_automat[i, j]);
                             }
                         }
-                        break;
-                    case "credit":
-                        if (eingabe_teile.Length == 1)
-                        {
-                            Console.WriteLine("Dein Guthaben beträgt " + guthaben + " Euro."); //gibt Guthaben aus
-                        }
-                        else
-                        {
-                            fehlermeldung();
-                            hinweis();
-                            erklaerungCredit();
-                        }
-                        break;
+                        break;*/
                     case "contents":
                         if (eingabe_teile.Length == 1)
                         {
@@ -299,9 +283,9 @@ namespace Grenkegetränkeautomat
                     case "price":
                         if (eingabe_teile.Length == 2)
                         {
-                            for (int i = getraenke.Length -1; i >= 0; i--)
+                            for (int i = getraenke.Length -1; i >= 0; i--) //prüft ob es angegebenes Getränk gibt
                             {
-                                if (eingabe_teile[1] == getraenke[i].Name)
+                                if (eingabe_teile[1] == getraenke[i].Name) 
                                 {
                                     counter_preisabfrage = true;
                                     Console.WriteLine(getraenke[i].Name + ": " + getraenke[i].Preis + " Euro");
@@ -315,8 +299,7 @@ namespace Grenkegetränkeautomat
                         else
                         {
                             fehlermeldung();
-                            hinweis();
-                            Console.WriteLine("Um den Preis eines Getränks abzufragen, nutze den Befehl price und gib den Namen des Getränks an (Beispiel: \"price " + getraenke[getraenke.Length - 1].Name + "\").");
+                            Console.WriteLine("Hinweis: Um den Preis eines Getränks abzufragen, nutze den Befehl price und gib den Namen des Getränks an (Beispiel: \"price " + getraenke[getraenke.Length - 1].Name + "\").");
                         }
                         break;
                     case "insertEuro":
@@ -327,7 +310,7 @@ namespace Grenkegetränkeautomat
                                 double betrag = Convert.ToDouble(eingabe_teile[1]); //versucht Umwandlungn von String zu Zahl
                                 for (int i = muenzen.Length - 1; i >= 0; i--)
                                 {
-                                    if (betrag == muenzen[i].Wert) //überprüft ob es die Münze gibt bzw ob der Automat die Münze annimmt
+                                    if (betrag == muenzen[i].Wert) //überprüft ob der Automat die Münze annimmt
                                     {
                                         guthaben += muenzen[i].Wert; //erhöht Eingabe um Wert der eingeworfenen Münze
                                         Console.WriteLine(betrag + " Euro Münze wurde eingeworfen, dein Guthaben beträgt " + guthaben + " Euro"); //gibt neues Guthaben aus
@@ -336,7 +319,7 @@ namespace Grenkegetränkeautomat
                                 }
                                 if (counter_muenze_pruefen == false) //Fehlermeldung wenn Münze nicht angenommen wurde
                                 {
-                                    for (int i = muenzen_nicht_akzeptiert.Length -1; i >= 0; i--)
+                                    for (int i = muenzen_nicht_akzeptiert.Length -1; i >= 0; i--) //prüft ob es angegebene Münze gibt
                                     {
                                         if (betrag == muenzen_nicht_akzeptiert[i].Wert)
                                         {
@@ -370,7 +353,7 @@ namespace Grenkegetränkeautomat
                         {
                             for (int i = getraenke.Length - 1; i >= 0; i--)
                             {
-                                if (eingabe_teile[1] == getraenke[i].Name)//überpfrüft ob das gewünschte Getränk verkauft wird
+                                if (eingabe_teile[1] == getraenke[i].Name)//überpfrüft ob es das eingegebene Getränk gibt
                                 {
                                     counter_kaufen = true;
                                     if (getraenke[i].Anzahl >= 1) //überfrüft ob das Getränk noch vorhanden ist
@@ -397,7 +380,7 @@ namespace Grenkegetränkeautomat
                                                 Console.Write(". Dein Rückgeld ist: ");
                                             }
                                             anzahl_muenzen_gesamt = 0;
-                                            for (int j = muenzen.Length - 1; j >= 0; j--)
+                                            for (int j = muenzen.Length - 1; j >= 0; j--) //gibt Rückgeld
                                             {
                                                 if (muenzen[j].Anzahl != 0)
                                                 {
@@ -449,7 +432,7 @@ namespace Grenkegetränkeautomat
                                 if (eingabe_teile[1] == getraenke[i].Name) //überprüft ob Getränk teil des Sortiments ist
                                 {
                                     counter_auffuellen = true;
-                                    if (eingabe_teile.Length == 2)
+                                    if (eingabe_teile.Length == 2) //setzt hinzufügen auf 1 wenn keine Anzahl angegeben wurde
                                     {
                                         hinzufügen = 1;
                                     }
@@ -461,7 +444,7 @@ namespace Grenkegetränkeautomat
                                         }
                                         if (hinzufügen > 0)
                                         {
-                                            for (int j = getraenke.Length - 1; j >= 0; j--)
+                                            for (int j = getraenke.Length - 1; j >= 0; j--) //berechnet wie viele Plätze durch andere Getränke blockiert werden
                                             {
                                                 if (j != i)
                                                 {
@@ -474,17 +457,17 @@ namespace Grenkegetränkeautomat
                                                     blockiert_ges += getraenke[j].Blockiert;
                                                 }
                                             }
-                                            frei = plaetze_ges - blockiert_ges - getraenke[i].Anzahl;
-                                            if (frei >= hinzufügen)
+                                            frei = plaetze_ges - blockiert_ges - getraenke[i].Anzahl; //berechnet wie viele Flaschen des angegebenen Getränks höchstens in den Automaten gelegt werden können
+                                            if (frei >= hinzufügen) //genug freie Pätze
                                             {
                                                 inFachLegen(hinzufügen, i);
                                                 ausgabe_insertGetraenk(hinzufügen, i);
                                             }
-                                            else if (frei > 0)
+                                            else if (frei > 0) //nicht genug freie Plätze aber mind. 1 freier Platz
                                             {
                                                 hinzufügen = frei;
                                                 Console.WriteLine("Es kann maximal " + frei + "x " + getraenke[i].Name + " hinzugefügt werden.");
-                                                Console.WriteLine(frei + "x " + getraenke[i].Name + " hinzufügen? (Erwartete Antwort: \"ja\" oder \"nein\")");
+                                                Console.WriteLine(hinzufügen + "x " + getraenke[i].Name + " hinzufügen? (Erwartete Antwort: \"ja\" oder \"nein\")");
                                                 while (counter_ja_nein == false)
                                                 {
                                                     string ja_nein_eingabe = Console.ReadLine();
@@ -517,7 +500,7 @@ namespace Grenkegetränkeautomat
                                         {
                                             Console.WriteLine("Zu viel Langeweile? join GRENKE");
                                         }
-                                        else
+                                        else //negative eingabe
                                         {
                                             Console.WriteLine("Erwischt, du Getränkedieb!");
                                         }
@@ -567,8 +550,8 @@ namespace Grenkegetränkeautomat
         public string Name { get; set; }
         public double Preis { get; set; }
         public int Anzahl { get; set; }
-        public int Blockiert { get; set; }
-        public double Liter { get; set; }
+        public int Blockiert { get; set; } // gibt an wie viele Plätze durch das Getraenk blockiert werden (belgegte Plätze + freie Plätze in nicht vollständig gefüllten Fächern)
+        public double Liter { get; set; } 
         public int AngefangenesFach { get; set; } // wert: 1 bis anzahl_faecher, 0 -> alle Fächer des Getraenks vollständig gefüllt
 
         public Getraenk (string _name, double _preis, int _anzahl, int _blockiert, double _liter, int _angefangenes_fach)
