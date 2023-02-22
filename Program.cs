@@ -162,7 +162,7 @@ namespace Grenkegetränkeautomat
             {
                 while(hinzu > 0)
                 {
-                    if (getraenke[i].AngefangenesFach >= 0) //es gibt ein nicht vollständig gefülltes Fach -> Getränk an ersten freien Platz
+                    if (getraenke[i].AngefangenesFach > 0) //es gibt ein nicht vollständig gefülltes Fach -> Getränk an ersten freien Platz
                     {
                         for (int j = 0; j < plaetze_je_fach; j++)
                         {
@@ -205,7 +205,7 @@ namespace Grenkegetränkeautomat
             }
             void ausFachNehmen (int i)
             {
-                if (getraenke[i].AngefangenesFach >= 0) //es gibt ein nicht vollständig gefülltes Fach -> nimmt Getränk von letztem gefüllten Platz
+                if (getraenke[i].AngefangenesFach > 0) //es gibt ein nicht vollständig gefülltes Fach -> nimmt Getränk von letztem gefüllten Platz
                 {
                     for (int j = plaetze_je_fach - 1; j >= 0; j--)
                     {
