@@ -552,7 +552,7 @@ namespace Grenkegetränkeautomat
         public int Anzahl { get; set; }
         public int Blockiert { get; set; } // gibt an wie viele Plätze durch das Getraenk blockiert werden (belgegte Plätze + freie Plätze in nicht vollständig gefüllten Fächern)
         public double Liter { get; set; } 
-        public int AngefangenesFach { get; set; } // wert: 1 bis anzahl_faecher, 0 -> alle Fächer des Getraenks vollständig gefüllt
+        public int AngefangenesFach { get; set; } // wert: 1 bis anzahl_faecher, -1 -> alle Fächer des Getraenks vollständig gefüllt
 
         public Getraenk (string _name, double _preis, int _anzahl, int _blockiert, double _liter, int _angefangenes_fach)
         {
